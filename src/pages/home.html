@@ -1,12 +1,603 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+<title>HOME</title>
+
+<script src="creepy-footer.js"></script>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        color: #aa0000;
+        font-family: "Courier New", monospace;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    /* Background breathing effect */
+    body::after {
+        content: "";
+        position: fixed;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(120,0,0,0.15) 0%, transparent 70%);
+        animation: breathe 6s infinite ease-in-out;
+        pointer-events: none;
+    }
+
+    @keyframes breathe {
+        0%,100% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .container {
+        text-align: center;
+        z-index: 2;
+    }
+
+    .blood-eye {
+        width: 220px;
+        height: 110px;
+        margin: 0 auto 28px;
+        border: 3px solid #5a0000;
+        border-radius: 120px / 75px;
+        background:
+            radial-gradient(circle at 36% 45%, rgba(130, 0, 0, 0.42) 0%, rgba(40, 0, 0, 0.18) 35%, transparent 58%),
+            radial-gradient(circle at 64% 55%, rgba(120, 0, 0, 0.36) 0%, rgba(20, 0, 0, 0.15) 40%, transparent 64%),
+            radial-gradient(circle at center, #2d0000 0%, #120000 70%, #070000 100%);
+        position: relative;
+        box-shadow: 0 0 16px rgba(255, 0, 0, 0.35), inset 0 0 18px rgba(180, 0, 0, 0.45);
+        overflow: hidden;
+        animation: eyePulse 3.2s ease-in-out infinite;
+        cursor: pointer;
+    }
+
+    .blood-eye::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(80, 0, 0, 0.2), rgba(20, 0, 0, 0.8));
+        transform-origin: center;
+        animation: blink 2.8s infinite;
+    }
+
+    .blood-eye::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 60px;
+        left: 50%;
+        top: 88px;
+        transform: translateX(-50%);
+        background: linear-gradient(to bottom, rgba(160, 0, 0, 0.95), rgba(40, 0, 0, 0));
+        border-radius: 18px 18px 50% 50%;
+        filter: blur(0.4px);
+        animation: drip 2.4s ease-in-out infinite;
+        opacity: 0.9;
+    }
+
+    .sclera {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 142px;
+        height: 66px;
+        border-radius: 60% 60% 52% 52%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle at 50% 45%, #3f0000 0%, #1e0000 60%, #0d0000 100%);
+        box-shadow: inset 0 0 18px rgba(255, 40, 40, 0.2);
+    }
+
+    .vein {
+        position: absolute;
+        height: 2px;
+        background: linear-gradient(to right, rgba(130, 0, 0, 0), rgba(190, 0, 0, 0.9), rgba(130, 0, 0, 0));
+        filter: blur(0.2px);
+        opacity: 0.65;
+    }
+
+    .vein.v1 { width: 70px; left: 22px; top: 19px; transform: rotate(-14deg); }
+    .vein.v2 { width: 58px; right: 16px; top: 24px; transform: rotate(12deg); }
+    .vein.v3 { width: 62px; left: 38px; bottom: 18px; transform: rotate(9deg); }
+
+    .pupil {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle at 45% 40%, #ff3b3b 0%, #7a0000 45%, #000 100%);
+        box-shadow: 0 0 18px rgba(255, 40, 40, 0.65);
+        animation: stare 4.2s ease-in-out infinite;
+    }
+
+    .iris-ring {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        border: 2px solid rgba(180, 0, 0, 0.6);
+        box-shadow: 0 0 16px rgba(255, 0, 0, 0.35), inset 0 0 14px rgba(120, 0, 0, 0.4);
+        pointer-events: none;
+    }
+
+    @keyframes blink {
+        0%, 44%, 48%, 100% {
+            transform: scaleY(0);
+            opacity: 0;
+        }
+        46% {
+            transform: scaleY(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes eyePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+    }
+
+    @keyframes drip {
+        0%, 100% {
+            transform: translateX(-50%) scaleY(0.92);
+            opacity: 0.75;
+        }
+        50% {
+            transform: translateX(-50%) scaleY(1.08);
+            opacity: 1;
+        }
+    }
+
+    @keyframes stare {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        30% { transform: translate(-44%, -50%) scale(1.04); }
+        65% { transform: translate(-54%, -50%) scale(0.98); }
+    }
+
+    .blood-eye.eye-flare {
+        box-shadow: 0 0 36px rgba(255, 0, 0, 0.7), inset 0 0 30px rgba(255, 0, 0, 0.45);
+        filter: brightness(1.35);
+    }
+
+    .blood-eye.eye-shiver {
+        animation: eyePulse 3.2s ease-in-out infinite, shiver 0.08s steps(2, end) 12;
+    }
+
+    .blood-eye.eye-snap::before {
+        animation: hardBlink 0.13s ease-in-out 5;
+        opacity: 1;
+    }
+
+    .blood-eye.eye-bleed::after {
+        height: 88px;
+        width: 36px;
+        opacity: 1;
+        background: linear-gradient(to bottom, rgba(220, 0, 0, 1), rgba(70, 0, 0, 0));
+    }
+
+    .blood-eye.eye-bleed .pupil {
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    .blood-eye.eye-possessed {
+        filter: brightness(1.6) contrast(1.5) saturate(1.3);
+        box-shadow: 0 0 52px rgba(255, 0, 0, 0.95), inset 0 0 40px rgba(255, 30, 30, 0.75);
+        animation: eyePulse 3.2s ease-in-out infinite, possessedShake 0.05s steps(2, end) 20;
+    }
+
+    .blood-eye.eye-possessed .pupil {
+        transform: translate(-50%, -50%) scale(1.28);
+        box-shadow: 0 0 30px rgba(255, 40, 40, 0.95);
+    }
+
+    .blood-eye.eye-possessed::after {
+        height: 98px;
+        width: 44px;
+        opacity: 1;
+        background: linear-gradient(to bottom, rgba(255, 0, 0, 1), rgba(90, 0, 0, 0));
+    }
+
+    .blood-eye.eye-howl::before {
+        animation: hardBlink 0.09s ease-in-out 12;
+        opacity: 1;
+    }
+
+    .blood-eye.eye-howl .vein {
+        opacity: 1;
+        filter: blur(0);
+        height: 3px;
+    }
+
+    body.rare-eye-flash {
+        animation: rareFlash 0.4s steps(2, end) 3;
+    }
+
+    @keyframes shiver {
+        0% { transform: translate(0, 0); }
+        25% { transform: translate(2px, -1px); }
+        50% { transform: translate(-2px, 1px); }
+        75% { transform: translate(1px, 1px); }
+        100% { transform: translate(0, 0); }
+    }
+
+    @keyframes possessedShake {
+        0% { transform: translate(0, 0) scale(1.02); }
+        25% { transform: translate(3px, -2px) scale(1.04); }
+        50% { transform: translate(-3px, 2px) scale(1.01); }
+        75% { transform: translate(2px, 2px) scale(1.05); }
+        100% { transform: translate(0, 0) scale(1.02); }
+    }
+
+    @keyframes hardBlink {
+        0%, 100% { transform: scaleY(0); opacity: 0; }
+        50% { transform: scaleY(1); opacity: 1; }
+    }
+
+    @keyframes rareFlash {
+        0%, 100% { background: black; }
+        50% { background: #300000; }
+    }
+
+    h1 {
+        letter-spacing: 10px;
+        font-weight: normal;
+        animation: flicker 2s infinite;
+    }
+
+    @keyframes flicker {
+        0% { opacity: 1; }
+        45% { opacity: 0.8; }
+        50% { opacity: 0.4; }
+        55% { opacity: 0.9; }
+        100% { opacity: 1; }
+    }
+
+    #startBtn {
+        margin-top: 40px;
+        padding: 20px 60px;
+        font-size: 22px;
+        background: transparent;
+        border: 2px solid darkred;
+        color: red;
+        cursor: pointer;
+        transition: 0.3s;
+        letter-spacing: 5px;
+    }
+
+    #startBtn:hover {
+        background: red;
+        color: black;
+        box-shadow: 0 0 20px red;
+    }
+
+    #navButtons {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        padding: 8px 18px;
+        font-size: 13px;
+        font-family: "Courier New", monospace;
+        background: transparent;
+        border: 1px solid #550000;
+        color: #660000;
+        cursor: pointer;
+        transition: 0.2s;
+        letter-spacing: 2px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .nav-btn:hover {
+        background: #1a0000;
+        border-color: darkred;
+        color: #cc0000;
+        box-shadow: 0 0 8px #440000;
+    }
+
+    #whisper {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.6;
+        letter-spacing: 2px;
+    }
+
+    .glitch {
+        animation: glitch 0.3s infinite;
+    }
+
+    .screen-glitch {
+        animation: screen-shake 0.04s infinite alternate, screen-flicker 0.08s infinite;
+        filter: contrast(2.2) saturate(2.2) hue-rotate(210deg) brightness(0.75) blur(0.4px);
+        transform-origin: center;
+    }
+
+    .glitch-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 60, 60, 0.08);
+        pointer-events: none;
+        z-index: 9998;
+        mix-blend-mode: screen;
+        animation: overlay-flicker 0.16s infinite;
+    }
+
+    .glitch-word {
+        position: fixed;
+        z-index: 9999;
+        font-family: "Courier New", monospace;
+        font-size: 18px;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.85);
+        text-shadow: 0 0 18px rgba(255, 0, 0, 0.95), 0 0 22px rgba(255, 255, 255, 0.45);
+        pointer-events: none;
+        white-space: nowrap;
+        animation: glitch-fade 1s forwards;
+    }
+
+    @keyframes glitch {
+        0% { transform: translate(1px, -1px); }
+        25% { transform: translate(-2px, 2px); }
+        50% { transform: translate(2px, 1px); }
+        75% { transform: translate(-1px, -2px); }
+        100% { transform: translate(0, 0); }
+    }
+
+    @keyframes screen-shake {
+        0% { transform: translate(0, 0); }
+        10% { transform: translate(-3px, 2px); }
+        20% { transform: translate(3px, -2px); }
+        30% { transform: translate(-2px, 3px); }
+        40% { transform: translate(2px, -3px); }
+        50% { transform: translate(1px, 2px); }
+        60% { transform: translate(-1px, -2px); }
+        70% { transform: translate(3px, 1px); }
+        80% { transform: translate(-3px, -1px); }
+        90% { transform: translate(2px, 2px); }
+        100% { transform: translate(0, 0); }
+    }
+
+    @keyframes screen-flicker {
+        0%, 100% { opacity: 1; }
+        10% { opacity: 0.4; }
+        25% { opacity: 0.9; }
+        35% { opacity: 0.2; }
+        50% { opacity: 1; }
+        65% { opacity: 0.3; }
+        80% { opacity: 0.85; }
+        90% { opacity: 0.5; }
+    }
+
+    @keyframes overlay-flicker {
+        0% { opacity: 0.04; }
+        50% { opacity: 0.18; }
+        100% { opacity: 0.06; }
+    }
+
+    @keyframes glitch-fade {
+        0% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0; transform: scale(1.3); }
+    }
+
+</style>
 </head>
 <body>
-    <h1>Home Page</h1>
-    <p>This is the home page of the website.</p>
+
+<div class="container">
+    <div class="blood-eye" id="bloodEye" aria-hidden="true">
+        <div class="sclera">
+            <span class="vein v1"></span>
+            <span class="vein v2"></span>
+            <span class="vein v3"></span>
+        </div>
+        <div class="iris-ring"></div>
+        <div class="pupil"></div>
+    </div>
+    <h1>HOME</h1>
+    <button id="startBtn">START</button>
+    <div id="navButtons">
+        <a class="nav-btn" href="page2.html">I. WHY ARE YOU HERE</a>
+        <a class="nav-btn" href="page3.html">II. WAITING</a>
+        <a class="nav-btn" href="page4.html">III. NOTHING HAPPENS</a>
+        <a class="nav-btn" href="page5.html">IV. WARNING</a>
+        <a class="nav-btn" href="page6.html">V. THE END</a>
+    </div>
+</div>
+
+<div id="whisper"></div>
+
+<script>
+    const normalWhispers = [
+        "You’ve been here before.",
+        "It remembers you.",
+        "You never make it past this point.",
+        "Why do you keep coming back?",
+        "This is where it resets.",
+        "Press it. You always do."
+    ];
+
+    const rareWhispers = [
+        "STOP LOOKING AT THE SCREEN.",
+        "IT CAN SEE YOU NOW.",
+        "DON’T TURN AROUND.",
+        "YOU WERE NOT ALONE WHEN YOU OPENED THIS.",
+        "IT KNOWS YOUR NAME.",
+        "THIS TIME IT DOESN’T RESET."
+    ];
+
+    const whisperElement = document.getElementById("whisper");
+    const startBtn = document.getElementById("startBtn");
+    const bloodEye = document.getElementById("bloodEye");
+
+    let isRareActive = false;
+
+    function randomWhisper() {
+        isRareActive = Math.random() < 0.5; // 50/50 chance
+
+        if (isRareActive) {
+            const randomIndex = Math.floor(Math.random() * rareWhispers.length);
+            whisperElement.textContent = rareWhispers[randomIndex];
+
+            whisperElement.style.color = "white";
+            whisperElement.style.textShadow = "0 0 20px red";
+            document.body.style.background = "#150000";
+
+        } else {
+            const randomIndex = Math.floor(Math.random() * normalWhispers.length);
+            whisperElement.textContent = normalWhispers[randomIndex];
+
+            whisperElement.style.color = "#aa0000";
+            whisperElement.style.textShadow = "none";
+            document.body.style.background = "black";
+        }
+    }
+
+    randomWhisper();
+    setInterval(randomWhisper, 5000);
+
+    const eyeEffects = ["eye-flare", "eye-shiver", "eye-snap", "eye-bleed"];
+    const rareEyeEffects = ["eye-possessed", "eye-howl"];
+    let eyeEffectTimer;
+    let rareEyeFlashTimer;
+
+    bloodEye.addEventListener("mouseenter", () => {
+        const allEffects = [...eyeEffects, ...rareEyeEffects];
+        bloodEye.classList.remove(...allEffects);
+        clearTimeout(eyeEffectTimer);
+        clearTimeout(rareEyeFlashTimer);
+        document.body.classList.remove("rare-eye-flash");
+
+        const isRareEye = Math.random() < 0.14;
+        const source = isRareEye ? rareEyeEffects : eyeEffects;
+        const i = Math.floor(Math.random() * source.length);
+        const selected = source[i];
+        bloodEye.classList.add(selected);
+
+        if (isRareEye) {
+            whisperElement.textContent = "IT SAW YOU.";
+            whisperElement.style.color = "white";
+            whisperElement.style.textShadow = "0 0 26px red";
+            document.body.classList.add("rare-eye-flash");
+            rareEyeFlashTimer = setTimeout(() => {
+                document.body.classList.remove("rare-eye-flash");
+            }, 1300);
+        }
+
+        eyeEffectTimer = setTimeout(() => {
+            bloodEye.classList.remove(selected);
+        }, isRareEye ? 1300 : 900);
+    });
+
+    let eyeClickCount = 0;
+    let eyeGlitchActive = false;
+
+    function randomGlitchText(length) {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()[]{}<>?/\\|";
+        let result = "";
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    function createGlitchWord() {
+        const word = document.createElement('div');
+        word.className = 'glitch-word';
+        word.textContent = randomGlitchText(Math.floor(Math.random() * 12) + 6);
+        word.style.left = Math.random() * 92 + 'vw';
+        word.style.top = Math.random() * 92 + 'vh';
+        word.style.fontSize = `${14 + Math.random() * 34}px`;
+        word.style.opacity = `${0.15 + Math.random() * 0.6}`;
+        word.style.transform = `rotate(${Math.random() * 80 - 40}deg) skew(${Math.random() * 40 - 20}deg, ${Math.random() * 40 - 20}deg) scale(${0.8 + Math.random() * 0.8})`;
+        word.style.color = `rgba(${180 + Math.random() * 75}, ${Math.random() * 255}, ${Math.random() * 255}, ${0.6 + Math.random() * 0.3})`;
+        document.body.appendChild(word);
+        setTimeout(() => {
+            if (word.parentNode) {
+                word.parentNode.removeChild(word);
+            }
+        }, 900 + Math.random() * 500);
+    }
+
+    function triggerEyeGlitch() {
+        if (eyeGlitchActive) return;
+        eyeGlitchActive = true;
+        document.body.classList.add('screen-glitch');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'glitch-overlay';
+        document.body.appendChild(overlay);
+
+        const spawnCount = 30 + Math.floor(Math.random() * 20);
+        let spawned = 0;
+        const spawnInterval = setInterval(() => {
+            createGlitchWord();
+            spawned += 1;
+            if (spawned >= spawnCount) {
+                clearInterval(spawnInterval);
+            }
+        }, 60);
+
+        setTimeout(() => {
+            document.body.classList.remove('screen-glitch');
+            eyeGlitchActive = false;
+            if (overlay.parentNode) {
+                overlay.parentNode.removeChild(overlay);
+            }
+        }, 3200);
+    }
+
+    bloodEye.addEventListener('click', () => {
+        if (eyeGlitchActive) return;
+        eyeClickCount += 1;
+        if (eyeClickCount >= 10) {
+            eyeClickCount = 0;
+            triggerEyeGlitch();
+        }
+    });
+
+    startBtn.addEventListener("click", () => {
+
+        if (isRareActive) {
+            // RARE MESSAGE ACTIVE → RESET EVERYTHING
+            startBtn.textContent = "NO.";
+            startBtn.classList.add("glitch");
+
+            setTimeout(() => {
+                startBtn.textContent = "START";
+                startBtn.classList.remove("glitch");
+                whisperElement.textContent = "You’ve been here before.";
+                whisperElement.style.color = "#aa0000";
+                document.body.style.background = "black";
+                isRareActive = false;
+            }, 2000);
+
+        } else {
+            // NORMAL MESSAGE → CONTINUE
+            startBtn.textContent = "OPENING...";
+            document.body.style.background = "#200000";
+
+            setTimeout(() => {
+                window.location.href = "page2.html";
+            }, 400);
+        }
+
+    });
+</script>
+
 </body>
 </html>

@@ -1,0 +1,32 @@
+.creepy-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    border-top: 1px solid #220000;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-family: "Courier New", monospace;
+    color: #550000;
+    font-size: 0.8rem;
+    z-index: 999;
+    box-sizing: border-box;
+}
+
+#footer-whisper {
+    margin: 0 0 2px;
+    opacity: 0.7;
+    animation: footerFlicker 4s infinite;
+}
+
+@keyframes footerFlicker {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.3; }
+}
+
+.footer-note {
+    margin: 0;
+    font-size: 0.7rem;
+    opacity: 0.4;
+}

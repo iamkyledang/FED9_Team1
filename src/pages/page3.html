@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>something is coming...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=VT323&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #ff3333;
+            font-family: 'VT323', monospace;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Subtle static/noise background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                transparent 0px,
+                transparent 2px,
+                rgba(255, 255, 255, 0.03) 2px,
+                rgba(255, 255, 255, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: noise 0.8s steps(5) infinite;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        #creepy-text {
+            font-family: 'Creepster', cursive;
+            font-size: 2.8rem;
+            line-height: 1.3;
+            text-shadow: 
+                0 0 10px #ff3333,
+                0 0 20px #ff0000,
+                0 0 40px #990000;
+            animation: flicker 1.5s infinite alternate, 
+                       glitch 2.5s infinite;
+            letter-spacing: 4px;
+        }
+
+        .subtext {
+            margin-top: 40px;
+            font-size: 1.4rem;
+            color: #aa2222;
+            opacity: 0.7;
+            animation: subflicker 4s infinite;
+        }
+
+        .scanline {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(255, 50, 50, 0.4),
+                transparent
+            );
+            animation: scan 6s linear infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        @keyframes flicker {
+            0%, 19% { opacity: 1; }
+            20% { opacity: 0.4; }
+            21% { opacity: 1; }
+            45% { opacity: 1; }
+            46% { opacity: 0.3; }
+            47% { opacity: 1; }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(3px, -3px); }
+            60% { transform: translate(-2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes noise {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 200px; }
+        }
+
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 120%; }
+        }
+
+        @keyframes subflicker {
+            0%, 90% { opacity: 0.6; }
+            92% { opacity: 0.2; }
+            94% { opacity: 0.7; }
+        }
+
+        .eyes {
+            position: absolute;
+            bottom: 15%;
+            font-size: 2.5rem;
+            opacity: 0.15;
+            animation: eyesglow 8s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanline"></div>
+    
+    <div class="container">
+        <p id="creepy-text">
+            You're waiting...<br>
+            but I already know you're here.
+        </p>
+        
+        <p class="subtext">
+            it sees you waiting...<br>
+            it’s getting closer
+        </p>
+    </div>
+
+
+    <script>
+        const text = document.getElementById('creepy-text');
+        const messages = [
+            "You're waiting... but I already know you're here.",
+            "I can feel how impatient you are...",
+            "It's been watching since you opened this page.",
+            "Something is coming for you.",
+            "Why are you still here?",
+            "Tick... tock...",
+            "You feel it too, don't you?"
+        ];
+
+        let index = 0;
+
+        function changeText() {
+            text.style.opacity = 0;
+            
+            setTimeout(() => {
+                index = (index + 1) % messages.length;
+                text.innerHTML = messages[index].replace(/\.\.\./g, '<span style="animation: flicker 0.6s infinite;">...</span>');
+                text.style.opacity = 1;
+            }, 800);
+        }
+
+        // Random text changes
+        setInterval(() => {
+            if (Math.random() > 0.6) changeText();
+        }, 4500);
+
+        // Occasional screen flash
+        setInterval(() => {
+            if (Math.random() > 0.85) {
+                document.body.style.background = '#300000';
+                setTimeout(() => {
+                    document.body.style.background = '#0a0a0a';
+                }, 80);
+            }
+        }, 3000);
+
+        // Console message for extra creep factor
+        console.log("%cI see you.", "color: #ff3333; font-family: monospace; font-size: 14px;");
+    </script>
+
+<script src="../js/easter-egg.js"></script>
+
+</body>
+</html>

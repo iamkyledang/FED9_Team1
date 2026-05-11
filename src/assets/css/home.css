@@ -1,0 +1,162 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: #000;
+    color: #aaa;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+  }
+  
+  .navbar {
+    background: #0a0a0a;
+    border-bottom: 1px solid #2a2a2a;
+    padding: 0.8rem 1.5rem;
+    position: relative;
+  }
+  
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .logo {
+    color: #ccc;
+    font-size: 1.3rem;
+    text-decoration: none;
+    letter-spacing: 1px;
+  }
+  
+  .hamburger {
+    display: none;
+    background: none;
+    border: 1px solid #444;
+    color: #aaa;
+    font-size: 2rem;
+    padding: 0.2rem 0.8rem;
+    cursor: pointer;
+    font-family: monospace;
+    line-height: 1;
+  }
+  
+  .hamburger:hover {
+    background: #1a1a1a;
+    color: #fff;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  
+  .nav-link {
+    color: #888;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.3rem 0;
+    border: 1px solid transparent;
+  }
+  
+  .nav-link:hover {
+    color: #fff;
+  }
+  
+  .nav-link.active {
+    color: #fff;
+    border-bottom: 1px solid #666;
+  }
+  
+  .content {
+    max-width: 700px;
+    margin: 4rem auto;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid #222;
+    background: #0a0a0a;
+    min-height: 300px;
+  }
+  
+  .page {
+    display: none;
+  }
+  
+  .page.active {
+    display: block;
+  }
+  
+  h1 {
+    color: #ccc;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+  }
+  
+  .warning {
+    color: #b55;
+    margin: 1rem 0;
+    border: 1px solid #422;
+    padding: 0.5rem;
+    display: inline-block;
+  }
+  
+  .simple-list {
+    list-style: none;
+    margin-top: 1.5rem;
+  }
+  
+  .simple-list li {
+    margin: 0.8rem 0;
+    color: #999;
+  }
+  
+  p {
+    color: #999;
+    margin: 1rem 0;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .hamburger {
+      display: block;
+    }
+  
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #0a0a0a;
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+      padding: 1rem 0;
+      gap: 1rem;
+      text-align: center;
+    }
+  
+    .nav-links.active {
+      display: flex;
+    }
+  
+    .nav-link {
+      font-size: 1.3rem;
+      display: block;
+      padding: 0.5rem;
+    }
+  
+    .content {
+      margin: 2rem 1rem;
+      padding: 1.5rem;
+    }
+  
+    h1 {
+      font-size: 1.5rem;
+    }
+  }

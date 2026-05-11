@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page 6 - Final Warning</title>
+    <link rel="stylesheet" href="page6.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+            font-family: 'Minecraft', 'Courier New', monospace;
+        }
+
+        /* --- JUMPSCARE LAYER --- */
+        #jumpscare-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            background-image: url('https://mediaistockphoto.com/id/172699823/photo/scary-ghost.jpg?s=612x612&w=0&k=20&c=6J6zXfXfXfXfXfXfXfXfXfXfXfXfXfXfXfXfXfXfXf='); /* Placeholder Ghost */
+            background-size: cover;
+            background-position: center;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Fallback if image breaks */
+        #jumpscare-layer::after {
+            content: "👻";
+            font-size: 10rem;
+            color: white;
+        }
+
+        /* --- MINECRAFT DEATH SCREEN --- */
+        #minecraft-screen {
+            display: none; /* Hidden initially */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            z-index: 50;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .death-text {
+            font-size: 5rem;
+            color: #ff0000;
+            text-shadow: 4px 4px #3f0000;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .score-text {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 50px;
+        }
+
+        .mc-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .mc-btn {
+            width: 200px;
+            padding: 15px;
+            background-color: #7d7d7d;
+            border: 2px solid #000;
+            border-top: 2px solid #aaa;
+            border-left: 2px solid #aaa;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .mc-btn:active {
+            border: 2px solid #000;
+            border-top: 2px solid #555;
+            border-left: 2px solid #555;
+            background-color: #555;
+        }
+
+        /* Flash effect for jumpscare */
+        @keyframes scareFlash {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(3) invert(1); }
+            100% { filter: brightness(1); }
+        }
+
+        .scaring {
+            animation: scareFlash 0.1s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Jumpscare Section -->
+    <div id="jumpscare-layer" class="scaring"></div>
+
+    <!-- Minecraft Death Section -->
+    <div id="minecraft-screen">
+        <div class="death-text">You Died!</div>
+        <div class="score-text">Score: 0</div>
+        
+        <div class="mc-buttons">
+            <div class="mc-btn" onclick="retryGame()">Respawn</div>
+            <div class="mc-btn" onclick="exitGame()">Title Screen</div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // Jumpscare duration
+        const JUMPSCARE_DURATION = 10000; // 10 seconds (Change to 2000 for testing)
+
+        const jumpscareLayer = document.getElementById('jumpscare-layer');
+        const minecraftScreen = document.getElementById('minecraft-screen');
+
+        // Step 1: Show Jumpscare immediately on load
+        window.onload = () => {
+            console.log("Jumpscare Started");
+        };
+
+        // Step 2: After X seconds, hide jumpscare and show Minecraft Screen
+        setTimeout(() => {
+            jumpscareLayer.style.display = 'none';
+            minecraftScreen.style.display = 'flex';
+            console.log("Jumpscare Ended. Showing Death Screen.");
+        }, JUMPSCARE_DURATION);
+
+        // Button Functions
+        function retryGame() {
+            // Reloads the page (or you could redirect to page1.html)
+            location.reload();
+        }
+
+        function exitGame() {
+            // Attempts to close window (may be blocked by browsers)
+            window.close();
+            // Fallback: Redirect to Google
+            window.location.href = "https://www.google.com";
+        }
+    </script>
+    <script src="page6.js"></script>
+
+<script src="../js/easter-egg.js"></script>
+
+</body>
+</html>

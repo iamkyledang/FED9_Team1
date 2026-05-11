@@ -1,0 +1,73 @@
+body {
+    margin: 0;
+    background: black;
+    color: #aa0000;
+    font-family: "Courier New", monospace;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(120,0,0,0.15) 0%, transparent 70%);
+    animation: breathe 6s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes breathe {
+    0%,100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+.container {
+    text-align: center;
+    z-index: 2;
+}
+
+h1 {
+    letter-spacing: 8px;
+    font-weight: normal;
+    animation: flicker 2s infinite;
+    font-size: 45px;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    45% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+    55% { opacity: 0.9; }
+    100% { opacity: 1; }
+}
+
+.scary {
+    color: white;
+    text-shadow: 0 0 20px red;
+}
+
+.glitch {
+    animation: glitch 0.2s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: translate(2px,-2px); }
+    25% { transform: translate(-2px,2px); }
+    50% { transform: translate(2px,2px); }
+    75% { transform: translate(-2px,-2px); }
+    100% { transform: translate(0,0); }
+}
+
+#whisper {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.6;
+    letter-spacing: 2px;
+}

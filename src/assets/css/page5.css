@@ -1,0 +1,164 @@
+/* page5.css */
+:root {
+    --room-color: #e0e0e0;
+    --blood-color: #cc0000;
+    --dark-red: #500000;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--room-color);
+}
+
+/* --- 3D ROOM & LIGHTING --- */
+.room {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    perspective: 1000px;
+    overflow: hidden;
+}
+
+/* Dynamic Flashing Vignette */
+.light-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 40%, var(--dark-red) 100%);
+    opacity: 0;
+    z-index: 50;
+    pointer-events: none;
+    animation: pulseLight 0.4s infinite alternate;
+}
+
+@keyframes pulseLight {
+    0% { opacity: 0.2; transform: scale(1); }
+    100% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* --- GLITCH TEXT --- */
+.warning-text {
+    position: absolute;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--blood-color);
+    text-transform: uppercase;
+    text-align: center;
+    z-index: 20;
+    letter-spacing: 5px;
+    animation: glitchText 2s infinite;
+    text-shadow: 3px 3px 0px #000;
+}
+
+@keyframes glitchText {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* --- PAINT BUCKET --- */
+.bucket-wrapper {
+    position: absolute;
+    top: 50%;
+    left: -150px;
+    z-index: 10;
+    transform-style: preserve-3d;
+    animation: throwBucket 1.5s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+}
+
+.bucket {
+    width: 100px;
+    height: 120px;
+    background: linear-gradient(135deg, #ff4d4d 0%, #990000 100%);
+    border-radius: 10px 10px 40px 40px;
+    position: relative;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+    border: 2px solid #500000;
+}
+
+/* Bucket Handle */
+.bucket::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: 15px;
+    width: 60px;
+    height: 50px;
+    border: 6px solid #silver;
+    border-bottom: none;
+    border-radius: 30px 30px 0 0;
+    border-color: #ccc;
+}
+
+/* Bucket Shadow (Perspective) */
+.bucket-shadow {
+    position: absolute;
+    bottom: -40px;
+    left: 10px;
+    width: 80px;
+    height: 20px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 50%;
+    filter: blur(5px);
+    animation: shadowScale 1.5s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+}
+
+@keyframes throwBucket {
+    0% { left: -150px; top: 50%; transform: rotate(0deg) scale(0.8); }
+    50% { top: 40%; }
+    100% { left: 110%; top: 50%; transform: rotate(720deg) scale(1.2); }
+}
+
+@keyframes shadowScale {
+    0% { transform: scale(0.5); opacity: 0.2; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* --- ORGANIC PAINT SPLATTER --- */
+.splatter-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.droplet {
+    position: absolute;
+    background: var(--blood-color);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+@keyframes splashOut {
+    0% { transform: translate(0, 0) scale(0); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; }
+}
+
+/* Film Grain Overlay */
+.grain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}

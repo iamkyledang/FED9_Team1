@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Page 5 - Warning</title>
+    <link rel="stylesheet" href="page5.css">
+    <title>Page 5 - Warning</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #e0e0e0; /* Empty room wall color */
+        }
+
+        /* Flashing Lights Effect */
+        @keyframes flashLights {
+            0% { background-color: #e0e0e0; }
+            50% { background-color: #500000; } /* Dark Red */
+            100% { background-color: #e0e0e0; }
+        }
+
+        .room {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: flashLights 0.5s infinite; /* Fast flashing */
+        }
+
+        /* The Warning Text */
+        .warning-text {
+            position: absolute;
+            font-size: 3rem;
+            font-weight: bold;
+            color: red;
+            text-transform: uppercase;
+            text-align: center;
+            z-index: 20;
+            text-shadow: 2px 2px 0px black;
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border: 2px solid red;
+        }
+
+        /* The Paint Bucket */
+        .bucket-container {
+            position: absolute;
+            top: 50%;
+            left: -100px; /* Start off screen */
+            z-index: 10;
+            animation: throwBucket 2s forwards;
+        }
+
+        .bucket {
+            width: 80px;
+            height: 90px;
+            background: red;
+            border-radius: 10px 10px 40px 40px;
+            position: relative;
+            border: 4px solid #800000;
+        }
+
+        /* Bucket Handle */
+        .bucket::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            width: 50px;
+            height: 40px;
+            border: 5px solid silver;
+            border-bottom: none;
+            border-radius: 25px 25px 0 0;
+        }
+
+        /* Paint Splash */
+        .splash {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0px;
+            height: 0px;
+            background: red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            opacity: 0;
+        }
+
+        @keyframes throwBucket {
+            0% { left: -100px; transform: rotate(0deg); }
+            60% { left: 50%; transform: rotate(360deg); }
+            100% { left: 110%; transform: rotate(720deg); }
+        }
+
+        @keyframes paintSplash {
+            0% { width: 0px; height: 0px; opacity: 0; }
+            60% { width: 0px; height: 0px; opacity: 0; }
+            100% { width: 300px; height: 300px; opacity: 0.8; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="room">
+        <div class="warning-text">Just leave now, I'm warning you</div>
+        
+        <div class="splash" id="paintSplash"></div>
+
+        <div class="bucket-container">
+            <div class="bucket"></div>
+        </div>
+    </div>
+    <!-- ... content ... -->
+    <div class="grain"></div> <!-- Add this for film grain effect -->
+    <div class="light-overlay"></div> <!-- Add this for lighting -->
+    
+    <!-- Ensure your HTML structure matches the CSS classes (room, bucket-wrapper, etc) -->
+    
+    <script src="page5.js"></script>
+
+    <script>
+        // --- CONFIGURATION ---
+        // The prompt says Page 6 appears at 120 seconds total.
+        // If Page 5 appears at 45 seconds, Page 5 should last for 75 seconds.
+        // CHANGE THIS VALUE FOR TESTING (e.g., 5000 = 5 seconds)
+        const TIME_UNTIL_PAGE_6 = 60000; 
+
+        // Trigger Splash Effect when bucket reaches wall (approx 1.2s into animation)
+        setTimeout(() => {
+            const splash = document.getElementById('paintSplash');
+            splash.style.animation = "paintSplash 0.5s forwards";
+        }, 1200);
+
+        // Redirect to Page 6 after timer expires
+        setTimeout(() => {
+            window.location.href = 'page6.html';
+        }, TIME_UNTIL_PAGE_6);
+
+        console.log("Page 5 Loaded. Redirecting to Page 6 in " + TIME_UNTIL_PAGE_6/1000 + " seconds.");
+        
+    </script>
+
+<script src="../js/easter-egg.js"></script>
+
+</body>
+</html>

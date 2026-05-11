@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WHY ARE YOU HERE</title>
+<script src="creepy-footer.js"></script>
+<style>
+
+body {
+    margin: 0;
+    background: #080808;
+    color: #aa0000;
+    font-family: "Courier New", monospace;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* breathing background */
+body::after {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(120,0,0,0.15) 0%, transparent 70%);
+    animation: breathe 6s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes breathe {
+    0%,100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+.container {
+    text-align: center;
+    z-index: 2;
+}
+
+h1 {
+    letter-spacing: 8px;
+    font-weight: normal;
+    animation: flicker 2s infinite;
+    font-size: 45px;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    45% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+    55% { opacity: 0.9; }
+    100% { opacity: 1; }
+}
+
+.scary {
+    color: white;
+    text-shadow: 0 0 20px red;
+}
+
+.glitch {
+    animation: glitch 0.2s infinite;
+}
+
+.glitch-burst {
+    animation: glitch 0.045s steps(2, end) infinite, jumpBurst 0.13s steps(2, end) infinite;
+    text-shadow: -3px 0 #440000, 3px 0 #880000, 0 0 18px #550000;
+    filter: contrast(1.35);
+}
+
+@keyframes glitch {
+    0% { transform: translate(2px,-2px); }
+    25% { transform: translate(-2px,2px); }
+    50% { transform: translate(2px,2px); }
+    75% { transform: translate(-2px,-2px); }
+    100% { transform: translate(0,0); }
+}
+
+@keyframes jumpBurst {
+    0% {
+        letter-spacing: 8px;
+        font-size: 45px;
+    }
+    25% {
+        letter-spacing: 5px;
+        font-size: 50px;
+    }
+    50% {
+        letter-spacing: 10px;
+        font-size: 41px;
+    }
+    75% {
+        letter-spacing: 4px;
+        font-size: 52px;
+    }
+    100% {
+        letter-spacing: 8px;
+        font-size: 45px;
+    }
+}
+
+#whisper {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.6;
+    letter-spacing: 2px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1 id="mainText">WHY ARE YOU HERE?</h1>
+</div>
+
+<div id="whisper"></div>
+
+<script>
+
+const whispers = [
+    "You shouldn’t stay here.",
+    "It knows you opened this.",
+    "Leave before it notices.",
+    "You were not invited.",
+    "It was waiting for someone.",
+    "Why did you come?"
+];
+
+const whisperElement = document.getElementById("whisper");
+const mainText = document.getElementById("mainText");
+const baseQuestion = "WHY ARE YOU HERE?";
+let isScrambling = false;
+
+/* random whisper messages */
+function randomWhisper(){
+    const i = Math.floor(Math.random()*whispers.length);
+    whisperElement.textContent = whispers[i];
+}
+
+randomWhisper();
+setInterval(randomWhisper, 5000);
+
+function randomGibberish(length) {
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789?!#@$%&*/\\<>[]{}";
+    let result = "";
+    for (let i = 0; i < length; i += 1) {
+        if (Math.random() < 0.08) {
+            result += " ";
+            continue;
+        }
+        const pick = Math.floor(Math.random() * alphabet.length);
+        result += alphabet[pick];
+    }
+    return result;
+}
+
+function scrambleMainText() {
+    if (isScrambling) {
+        return;
+    }
+    isScrambling = true;
+    mainText.classList.add("glitch-burst");
+    const ticksTarget = Math.floor(Math.random() * 9) + 8; // 8-16 loops
+    let ticks = 0;
+    const cycleSpeed = Math.floor(Math.random() * 45) + 35; // 35-80ms
+
+    const scrambleLoop = setInterval(() => {
+        const randomLength = baseQuestion.length + Math.floor(Math.random() * 9) - 4;
+        const safeLength = Math.max(8, randomLength);
+        mainText.textContent = randomGibberish(safeLength);
+        ticks += 1;
+
+        if (ticks >= ticksTarget) {
+            clearInterval(scrambleLoop);
+            const endLength = baseQuestion.length + Math.floor(Math.random() * 7) - 3;
+            mainText.textContent = randomGibberish(Math.max(8, endLength));
+            mainText.classList.remove("glitch-burst");
+            isScrambling = false;
+        }
+    }, cycleSpeed);
+}
+
+setInterval(() => {
+    if (Math.random() < 0.8) {
+        scrambleMainText();
+    } else if (!isScrambling) {
+        mainText.textContent = baseQuestion;
+    }
+}, 3000);
+
+setTimeout(() => {
+    window.location.href = "page3.html"; // name of your second file
+}, 60000); // 60,000 ms = 1 minute
+
+</script>
+
+<script src="../js/easter-egg.js"></script>
+
+</body>
+</html>
